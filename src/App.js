@@ -1,7 +1,9 @@
+import Header from "./Components/Header";
+
 function App() {
   return (
     <div className="App">
-      <button class="btn btn-primary">Button</button>
+      <Header></Header>
     </div>
   );
 }
