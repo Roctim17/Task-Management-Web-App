@@ -7,10 +7,10 @@ const Dashboard = () => {
         <div>
             <Header></Header>
             <div className="flex h-screen justify-center ">
-                <div class="btn-group pt-10">
-                    <button class="btn btn-active">Tasks</button>
+                <div className="btn-group pt-10">
+                    <button className="btn btn-active">Tasks</button>
 
-                    <button class="btn btn-accent">Members</button>
+                    <button className="btn btn-accent">Members</button>
                 </div>
             </div>
 

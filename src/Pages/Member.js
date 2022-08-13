@@ -9,12 +9,12 @@ const Member = () => {
             <Header></Header>
             <div className="min-h-screen text-center py-10">
                 <Link to="/addmember" >
-                    <button class="btn btn-outline btn-accent">Add New Memder</button>
+                    <button className="btn btn-outline btn-accent">Add New Memder</button>
                 </Link>
 
                 <div className="py-10 px-5">
-                    <div class="overflow-x-auto">
-                        <table class="table w-full">
+                    <div className="overflow-x-auto">
+                        <table className="table w-full">
 
                             <thead>
                                 <tr>

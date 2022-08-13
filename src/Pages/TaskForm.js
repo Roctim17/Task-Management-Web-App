@@ -1,13 +1,20 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
+import auth from '../firebase.init';
+import { toast } from 'react-toastify'
 
 const TaskForm = () => {
+
+    const [user] = useAuthState(auth)
     const current = new Date();
     const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
     const [members, setMembers] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('http://localhost:5000/member')
@@ -25,7 +32,7 @@ const TaskForm = () => {
             date,
             description: event.target.description.value,
         }
-        fetch('http://localhost:5000/createTask', {
+        fetch(`http://localhost:5000/createTask/${user.email}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -36,10 +43,17 @@ const TaskForm = () => {
             .then(result => {
                 console.log(result);
                 event.target.reset();
+                if (result) {
+                    navigate('/task')
+                }
 
+                if (result) {
+                    toast(`Successfully Assign to ${member} with ${createTask.title} Task`)
+                }
 
             })
     }
+
     return (
         <div>
             <Header></Header>
@@ -48,25 +62,25 @@ const TaskForm = () => {
                     <div className="card-body">
                         <h1 className='text-center text-2xl font-bold'>New Task Form</h1>
                         <form action="" onSubmit={handleCreateTask}>
-                            <div class="form-control w-full max-w-xs">
-                                <label class="label">
-                                    <span class="label-text">Title <span className='text-red-500'>*</span></span>
-                                    {/* <span class="label-text-alt">{date}  </span> */}
+                            <div className="form-control w-full max-w-xs">
+                                <label className="label">
+                                    <span className="label-text">Title <span className='text-red-500'>*</span></span>
+                                    {/* <span className="label-text-alt">{date}  </span> */}
                                 </label>
-                                <input type="text" name='title' placeholder="Wright Title here" class="input input-bordered w-full max-w-xs" required />
+                                <input type="text" name='title' placeholder="Wright Title here" className="input input-bordered w-full max-w-xs" required />
                             </div>
-                            <div class="form-control">
-                                <label class="label">
-                                    <span class="label-text">Description</span>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Description</span>
                                 </label>
-                                <textarea name='description' class="textarea textarea-bordered h-24" placeholder="Description"></textarea>
+                                <textarea name='description' className="textarea textarea-bordered h-24" placeholder="Description"></textarea>
 
                             </div>
-                            <div class="form-control w-full max-w-xs">
-                                <label class="label">
-                                    <span class="label-text">Assign to</span>
+                            <div className="form-control w-full max-w-xs">
+                                <label className="label">
+                                    <span className="label-text">Assign to</span>
                                 </label>
-                                <select name='member' class="select select-bordered">
+                                <select name='member' className="select select-bordered">
                                     <option disabled selected>Select</option>
                                     {
                                         members.map(member => <option

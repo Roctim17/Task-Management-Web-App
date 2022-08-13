@@ -45,7 +45,7 @@ const Signup = () => {
             <div className="card w-96 bg-base-100 shadow-xl">
                 <div className="card-body">
                     <div className="flex ">
-                        <div class="w-12 rounded-full ">
+                        <div className="w-12 rounded-full ">
                             <img src="https://i.ibb.co/vq02Nvt/tesk-logo-removebg-preview.png" alt="tesk-logo-removebg-preview" border="0" />
                         </div>
                         <div className="text-2xl font-bold">Task Management App</div>

@@ -11,17 +11,17 @@ const AddMemberForm = () => {
                     <div className="card-body">
                         <h1 className='text-center text-2xl font-bold'>Add New Member</h1>
                         <form action="">
-                            <div class="form-control w-full max-w-xs">
-                                <label class="label">
-                                    <span class="label-text">Name <span className='text-red-500'>*</span></span>
+                            <div className="form-control w-full max-w-xs">
+                                <label className="label">
+                                    <span className="label-text">Name <span className='text-red-500'>*</span></span>
                                 </label>
-                                <input type="text" placeholder="Name" class="input input-bordered w-full max-w-xs" required />
+                                <input type="text" placeholder="Name" className="input input-bordered w-full max-w-xs" required />
                             </div>
-                            <div class="form-control w-full max-w-xs">
-                                <label class="label">
-                                    <span class="label-text">Email </span>
+                            <div className="form-control w-full max-w-xs">
+                                <label className="label">
+                                    <span className="label-text">Email </span>
                                 </label>
-                                <input type="email" placeholder="Email" class="input input-bordered w-full max-w-xs" />
+                                <input type="email" placeholder="Email" className="input input-bordered w-full max-w-xs" />
                             </div>
 
 
