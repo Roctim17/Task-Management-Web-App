@@ -19,7 +19,7 @@ const Header = () => {
                 {user.displayName}
             </div>
         </div> : <></>}</li>
-        <li>  {user ? <button className="btn btn-ghost" onClick={logout}>Sign Out</button> : <></>} </li>
+        <li>  {user ? <button className="btn btn-accent" onClick={logout}>Log Out</button> : <></>} </li>
     </>
 
     return (

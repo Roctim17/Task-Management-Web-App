@@ -6,8 +6,14 @@ const Dashboard = () => {
     return (
         <div>
             <Header></Header>
+            <div className="text-center p-5">
+                <div class="btn-group">
+                    <button class="btn btn-active">Tasks</button>
 
-            <h1>Dashboard</h1>
+                    <button class="btn btn-accent">Members</button>
+                </div>
+            </div>
+
             <Footer></Footer>
         </div>
     );

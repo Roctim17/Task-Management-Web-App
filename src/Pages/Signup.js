@@ -44,6 +44,12 @@ const Signup = () => {
         <div className="flex h-screen justify-center items-center">
             <div className="card w-96 bg-base-100 shadow-xl">
                 <div className="card-body">
+                    <div className="flex ">
+                        <div class="w-12 rounded-full ">
+                            <img src="https://i.ibb.co/vq02Nvt/tesk-logo-removebg-preview.png" alt="tesk-logo-removebg-preview" border="0" />
+                        </div>
+                        <div className="text-2xl font-bold">Task Management App</div>
+                    </div>
                     <h2 className="text-center text-2xl font-bold">Sign Up</h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -112,13 +118,13 @@ const Signup = () => {
                         </div>
                         {signInError}
 
-                        <input className="btn w-full mas-w-xs text-white" type="submit" value='Sign Up' />
+                        <input className="btn btn-accent w-full mas-w-xs text-white" type="submit" value='Sign Up' />
                     </form>
                     <p><small>Already have an account? <Link className="text-primary" to="/login" >Please login</Link> </small></p>
                     <div className="divider">OR</div>
                     <button
                         onClick={() => signInWithGoogle()}
-                        className="btn btn-outline">Continue with Google</button>
+                        className="btn btn-outline hover:btn-accent">Continue with Google</button>
                 </div>
             </div>
         </div>
