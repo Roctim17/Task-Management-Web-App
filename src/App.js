@@ -10,6 +10,7 @@ import Task from "./Pages/Task";
 import Member from "./Pages/Member";
 import RequireAuth from "./Pages/RequireAuth";
 import TaskForm from "./Pages/TaskForm";
+import AddMemberForm from "./Pages/AddMemberForm";
 
 function App() {
   return (
@@ -39,6 +40,11 @@ function App() {
         <Route path="/taskform" element={
           <RequireAuth>
             <TaskForm></TaskForm>
+          </RequireAuth>
+        }></Route>
+        <Route path="/addmember" element={
+          <RequireAuth>
+            <AddMemberForm></AddMemberForm>
           </RequireAuth>
         }></Route>
         <Route path="/login" element={<Login></Login>}></Route>
