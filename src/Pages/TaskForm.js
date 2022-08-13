@@ -1,8 +1,45 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
 const TaskForm = () => {
+    const current = new Date();
+    const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+    const [members, setMembers] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:5000/member')
+            .then(res => res.json())
+            .then(data => setMembers(data));
+    }, [])
+
+
+    const handleCreateTask = event => {
+        event.preventDefault();
+        const member = event.target.member.value;
+        const createTask = {
+            title: event.target.title.value,
+            member,
+            date,
+            description: event.target.description.value,
+        }
+        fetch('http://localhost:5000/createTask', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(createTask)
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+                event.target.reset();
+
+
+            })
+    }
     return (
         <div>
             <Header></Header>
@@ -10,31 +47,37 @@ const TaskForm = () => {
                 <div className="card w-96 bg-base-100 shadow-xl">
                     <div className="card-body">
                         <h1 className='text-center text-2xl font-bold'>New Task Form</h1>
-                        <form action="">
+                        <form action="" onSubmit={handleCreateTask}>
                             <div class="form-control w-full max-w-xs">
                                 <label class="label">
                                     <span class="label-text">Title <span className='text-red-500'>*</span></span>
+                                    {/* <span class="label-text-alt">{date}  </span> */}
                                 </label>
-                                <input type="text" placeholder="Wright Title here" class="input input-bordered w-full max-w-xs" required />
+                                <input type="text" name='title' placeholder="Wright Title here" class="input input-bordered w-full max-w-xs" required />
                             </div>
                             <div class="form-control">
                                 <label class="label">
                                     <span class="label-text">Description</span>
                                 </label>
-                                <textarea class="textarea textarea-bordered h-24" placeholder="Description"></textarea>
+                                <textarea name='description' class="textarea textarea-bordered h-24" placeholder="Description"></textarea>
 
                             </div>
                             <div class="form-control w-full max-w-xs">
                                 <label class="label">
                                     <span class="label-text">Assign to</span>
                                 </label>
-                                <select class="select select-bordered">
+                                <select name='member' class="select select-bordered">
                                     <option disabled selected>Select</option>
-                                    <option>Star Wars</option>
-                                    <option>Harry Potter</option>
-                                    <option>Lord of the Rings</option>
-                                    <option>Planet of the Apes</option>
-                                    <option>Star Trek</option>
+                                    {
+                                        members.map(member => <option
+                                            key={member._id}
+                                            value={member.name}
+                                        >
+                                            {member.name}
+                                        </option>
+
+                                        )
+                                    }
                                 </select>
 
                             </div>

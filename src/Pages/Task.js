@@ -1,9 +1,18 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
 const Task = () => {
+
+
+
+    useEffect(() => {
+        fetch()
+    }, [])
+
+
     return (
         <div >
             <Header></Header>
