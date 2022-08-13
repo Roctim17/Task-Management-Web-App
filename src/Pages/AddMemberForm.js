@@ -1,8 +1,40 @@
 import React from 'react';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const AddMemberForm = () => {
+
+    const navigate = useNavigate();
+    const handleNewMember = event => {
+        event.preventDefault();
+        const newMember = {
+            name: event.target.name.value,
+            email: event.target.email.value
+        }
+        fetch(`http://localhost:5000/member`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newMember)
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result);
+                event.target.reset();
+                if (result) {
+                    navigate('/Member')
+                }
+
+                if (result) {
+                    toast(`Successfully Added  ${newMember.name} & Email ${newMember.email}`)
+                }
+
+            })
+    }
+
     return (
         <div>
             <Header></Header>
@@ -10,18 +42,18 @@ const AddMemberForm = () => {
                 <div className="card w-96 bg-base-100 shadow-xl">
                     <div className="card-body">
                         <h1 className='text-center text-2xl font-bold'>Add New Member</h1>
-                        <form action="">
+                        <form action="" onSubmit={handleNewMember}>
                             <div className="form-control w-full max-w-xs">
                                 <label className="label">
                                     <span className="label-text">Name <span className='text-red-500'>*</span></span>
                                 </label>
-                                <input type="text" placeholder="Name" className="input input-bordered w-full max-w-xs" required />
+                                <input type="text" name='name' placeholder="Name" className="input input-bordered w-full max-w-xs" required />
                             </div>
                             <div className="form-control w-full max-w-xs">
                                 <label className="label">
                                     <span className="label-text">Email </span>
                                 </label>
-                                <input type="email" placeholder="Email" className="input input-bordered w-full max-w-xs" />
+                                <input type="email" name='email' placeholder="Email" className="input input-bordered w-full max-w-xs" />
                             </div>
 
 
