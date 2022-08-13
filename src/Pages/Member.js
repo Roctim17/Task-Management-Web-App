@@ -2,8 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
+import useMember from '../Hooks/useMember';
 
 const Member = () => {
+
+    const [allMember] = useMember();
+
     return (
         <div >
             <Header></Header>
@@ -25,24 +29,18 @@ const Member = () => {
                             </thead>
                             <tbody>
 
-                                <tr>
-                                    <th>1</th>
-                                    <td>Cy Ganderton</td>
-                                    <td>10</td>
-
+                                {allMember.map((member, index) => <tr
+                                    key={member._id}
+                                >
+                                    <th>{index + 1}</th>
+                                    <td>{member.name}</td>
+                                    <td>{member.email}</td>
                                 </tr>
+                                )}
 
-                                <tr>
-                                    <th>2</th>
-                                    <td>Hart Hagerty</td>
-                                    <td>10</td>
-                                </tr>
 
-                                <tr>
-                                    <th>3</th>
-                                    <td>Brice Swyre</td>
-                                    <td>5</td>
-                                </tr>
+
+
                             </tbody>
                         </table>
                     </div>

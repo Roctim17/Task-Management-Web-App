@@ -21,15 +21,18 @@ const AddMemberForm = () => {
             body: JSON.stringify(newMember)
         })
             .then(res => res.json())
-            .then(result => {
-                console.log(result);
+            .then(data => {
+                console.log(data);
                 event.target.reset();
-                if (result) {
+                if (data.success) {
                     navigate('/Member')
                 }
 
-                if (result) {
+                if (data.success) {
                     toast(`Successfully Added  ${newMember.name} & Email ${newMember.email}`)
+                }
+                else {
+                    toast.error(` ${newMember.email} Email Already Exist`)
                 }
 
             })

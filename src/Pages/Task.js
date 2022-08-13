@@ -3,10 +3,29 @@ import { Link } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import useTask from '../Hooks/useTask';
+import { toast } from 'react-toastify'
 
 const Task = () => {
 
     const [allTask] = useTask({});
+
+
+    const deleteTask = (_id) => {
+        fetch(`http://localhost:5000/createTask/${_id}`, {
+            method: "DELETE",
+            headers: {
+                "content-type": "application/json",
+            },
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.deletedCount) {
+                    toast.success(`Deleted`);
+
+                }
+            });
+    };
+
 
     return (
         <div >
@@ -26,6 +45,7 @@ const Task = () => {
                                     <th>Title</th>
                                     <th>Date</th>
                                     <th>Assign to</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,6 +56,7 @@ const Task = () => {
                                     <td>{task.title}</td>
                                     <td>{task.date}</td>
                                     <td>{task.member}</td>
+                                    <td><button onClick={() => deleteTask(task._id)}>Delete</button></td>
                                 </tr>
                                 )}
 

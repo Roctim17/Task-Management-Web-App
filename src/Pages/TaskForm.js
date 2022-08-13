@@ -1,26 +1,22 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+// import { useEffect } from 'react';
+// import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import auth from '../firebase.init';
 import { toast } from 'react-toastify'
+import useMember from '../Hooks/useMember';
 
 const TaskForm = () => {
 
     const [user] = useAuthState(auth)
     const current = new Date();
     const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
-    const [members, setMembers] = useState([]);
+    const [allMember] = useMember();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        fetch('http://localhost:5000/member')
-            .then(res => res.json())
-            .then(data => setMembers(data));
-    }, [])
 
 
     const handleCreateTask = event => {
@@ -83,7 +79,7 @@ const TaskForm = () => {
                                 <select name='member' className="select select-bordered">
                                     <option disabled selected>Select</option>
                                     {
-                                        members.map(member => <option
+                                        allMember.map(member => <option
                                             key={member._id}
                                             value={member.name}
                                         >
