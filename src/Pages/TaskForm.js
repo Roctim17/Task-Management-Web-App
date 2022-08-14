@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import { useEffect } from 'react';
-// import { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
@@ -8,14 +7,26 @@ import Header from '../Components/Header';
 import auth from '../firebase.init';
 import { toast } from 'react-toastify'
 import useMember from '../Hooks/useMember';
+import Loading from '../Components/Loading';
 
 const TaskForm = () => {
 
     const [user] = useAuthState(auth)
     const current = new Date();
     const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
-    const [allMember] = useMember();
     const navigate = useNavigate();
+
+    const [members, isLoading, refetch] = useMember();
+    const [allMember, setAllMember] = useState([]);
+    useEffect(() => {
+        if (members) {
+            const sorted = [...members].reverse();
+            setAllMember(sorted);
+        }
+    }, [members]);
+    if (isLoading) {
+        return <Loading />;
+    }
 
 
 
@@ -50,6 +61,8 @@ const TaskForm = () => {
             })
     }
 
+
+
     return (
         <div>
             <Header></Header>
@@ -65,6 +78,7 @@ const TaskForm = () => {
                                 </label>
                                 <input type="text" name='title' placeholder="Wright Title here" className="input input-bordered w-full max-w-xs" required />
                             </div>
+
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Description</span>

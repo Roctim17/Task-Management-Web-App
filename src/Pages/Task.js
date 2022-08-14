@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import useTask from '../Hooks/useTask';
 import { toast } from 'react-toastify'
+import UpdatedTaskModal from './UpdatedTaskModal';
+import Loading from '../Components/Loading';
 
 const Task = () => {
 
-    const [allTask] = useTask({});
+    const [tasks, isLoading, refetch] = useTask({});
+    const [modalShow, setModalShow] = useState(null);
+    const [updatedTask, setUpdatedTask] = useState({});
+    const [allTask, setAllTask] = useState([]);
+
+    useEffect(() => {
+        if (tasks) {
+            const sorted = [...tasks].reverse();
+            setAllTask(sorted);
+        }
+    }, [tasks]);
+    if (isLoading) {
+        return <Loading />;
+    }
+
+
 
 
     const deleteTask = (_id) => {
@@ -21,9 +38,17 @@ const Task = () => {
             .then((data) => {
                 if (data.deletedCount) {
                     toast.success(`Deleted`);
-
+                    refetch();
                 }
             });
+    };
+
+    const updateTask = (_id) => {
+        setModalShow(true);
+        fetch(`http://localhost:5000/updatedTask/${_id}`)
+            .then((res) => res.json())
+            .then((data) => setUpdatedTask(data));
+
     };
 
 
@@ -46,6 +71,7 @@ const Task = () => {
                                     <th>Date</th>
                                     <th>Assign to</th>
                                     <th>Action</th>
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -56,7 +82,15 @@ const Task = () => {
                                     <td>{task.title}</td>
                                     <td>{task.date}</td>
                                     <td>{task.member}</td>
-                                    <td><button onClick={() => deleteTask(task._id)}>Delete</button></td>
+                                    <td><label onClick={() => deleteTask(task._id)} class="btn btn-warning modal-button m-1">Delete</label>
+                                        <label
+                                            for="my-modal-6"
+                                            onClick={() => updateTask(task._id)}
+                                            class="btn btn-success modal-button "
+                                        >
+                                            Update
+                                        </label>
+                                    </td>
                                 </tr>
                                 )}
 
@@ -65,6 +99,13 @@ const Task = () => {
                         </table>
                     </div>
                 </div>
+                {modalShow && (
+                    <UpdatedTaskModal
+                        update={updatedTask}
+                        setModalShow={setModalShow}
+                        refetch={refetch}
+                    />
+                )}
             </div>
             <Footer></Footer>
         </div>

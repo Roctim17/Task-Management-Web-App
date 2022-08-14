@@ -1,17 +1,15 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useQuery } from "react-query";
 
 
 const useTask = () => {
-    const [allTask, setAllTask] = useState([]);
 
-    useEffect(() => {
-        fetch(`http://localhost:5000/createTask/`)
-            .then(res => res.json())
-            .then(data => setAllTask(data))
-    }, []);
-
-    return [allTask];
+    const { isLoading, data, refetch } = useQuery("createTask", () =>
+        fetch(`http://localhost:5000/createTask/`, {
+            method: "GET",
+        }).then(res => res.json())
+    );
+    console.log(data)
+    return [data, isLoading, refetch];
 };
 
 export default useTask;
