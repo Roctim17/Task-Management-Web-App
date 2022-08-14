@@ -22,7 +22,7 @@ const Member = () => {
 
 
     const deleteMember = (_id) => {
-        fetch(`http://localhost:5000/member/${_id}`, {
+        fetch(`https://limitless-reaches-16352.herokuapp.com/member/${_id}`, {
             method: "DELETE",
             headers: {
                 "content-type": "application/json",
@@ -46,7 +46,7 @@ const Member = () => {
 
         const data = { name, email };
         if ((name && email)) {
-            fetch(`http://localhost:5000/member/${_id}`,
+            fetch(`https://limitless-reaches-16352.herokuapp.com/member/${_id}`,
                 {
                     method: "PUT",
                     headers: {

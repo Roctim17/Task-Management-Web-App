@@ -13,7 +13,7 @@ const AddMemberForm = () => {
             name: event.target.name.value,
             email: event.target.email.value
         }
-        fetch(`http://localhost:5000/member`, {
+        fetch(`https://limitless-reaches-16352.herokuapp.com/member`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

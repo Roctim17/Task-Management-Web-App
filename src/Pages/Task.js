@@ -28,7 +28,7 @@ const Task = () => {
 
 
     const deleteTask = (_id) => {
-        fetch(`http://localhost:5000/createTask/${_id}`, {
+        fetch(`https://limitless-reaches-16352.herokuapp.com/createTask/${_id}`, {
             method: "DELETE",
             headers: {
                 "content-type": "application/json",
@@ -45,7 +45,7 @@ const Task = () => {
 
     const updateTask = (_id) => {
         setModalShow(true);
-        fetch(`http://localhost:5000/updatedTask/${_id}`)
+        fetch(`https://limitless-reaches-16352.herokuapp.com/updatedTask/${_id}`)
             .then((res) => res.json())
             .then((data) => setUpdatedTask(data));
 

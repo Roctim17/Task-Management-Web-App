@@ -39,7 +39,7 @@ const TaskForm = () => {
             date,
             description: event.target.description.value,
         }
-        fetch(`http://localhost:5000/createTask/${user.email}`, {
+        fetch(`https://limitless-reaches-16352.herokuapp.com/createTask/${user.email}`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

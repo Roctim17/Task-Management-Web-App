@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 
 const useMember = () => {
     const { isLoading, data, refetch } = useQuery("addedTask", () =>
-        fetch(`http://localhost:5000/member/`, {
+        fetch(`https://limitless-reaches-16352.herokuapp.com/member/`, {
             method: "GET",
         }).then((res) => res.json())
     );
@@ -16,7 +16,7 @@ const useMember = () => {
     // const [allMember, setAllMember] = useState([]);
 
     // useEffect(() => {
-    //     fetch(`http://localhost:5000/member/`)
+    //     fetch(`https://limitless-reaches-16352.herokuapp.com/member/`)
     //         .then(res => res.json())
     //         .then(data => setAllMember(data))
     // }, []);

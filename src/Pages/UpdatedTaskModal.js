@@ -19,7 +19,7 @@ const UpdatedTaskModal = ({ update, setModalShow, refetch }) => {
             date,
             description: event.target.description.value,
         }
-        fetch(`http://localhost:5000/updatedTask/${_id}`, {
+        fetch(`https://limitless-reaches-16352.herokuapp.com/updatedTask/${_id}`, {
             method: "PUT",
             headers: {
                 "content-type": "application/json",
