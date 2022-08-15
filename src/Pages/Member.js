@@ -1,14 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import useMember from '../Hooks/useMember';
 import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
 import Loading from '../Components/Loading';
+import UpdateMemberModal from './UpdateMemberModal';
 
 const Member = () => {
     const [members, isLoading, refetch] = useMember();
     const [allMember, setAllMember] = useState([]);
+    const [updatingMember, setUpdatingMember] = useState({});
+    const [modalShow, setModalShow] = useState(null);
+    const navigate = useNavigate();
     useEffect(() => {
         if (members) {
             const sorted = [...members].reverse();
@@ -37,39 +41,19 @@ const Member = () => {
             });
     };
 
-
-    const handleSubmit = (event, _id) => {
-
-        event.preventDefault();
-        const name = event.target.name.value;
-        const email = event.target.email.value;
-
-        const data = { name, email };
-        if ((name && email)) {
-            fetch(`https://limitless-reaches-16352.herokuapp.com/member/${_id}`,
-                {
-                    method: "PUT",
-                    headers: {
-                        "content-type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                }
-            )
-                .then((res) => res.json())
-                .then((data) => {
-                    if (data) {
-
-                        toast.success("Member Updated Successfully");
-
-                        event.target.reset();
-                    }
-                });
-        }
-        else {
-            toast.error('Please Fill Up Full Form', { id: 25 })
-        }
+    const update = (_id) => {
+        console.log(_id)
+        setModalShow(true);
+        fetch(`https://limitless-reaches-16352.herokuapp.com/member/${_id}`)
+            .then((res) => res.json())
+            .then(data => setUpdatingMember(data),
+        );
     };
 
+    const navigateToMemberDetails = id => {
+        console.log(id)
+        navigate(`/memberDetails/${id}`)
+    }
 
 
 
@@ -90,7 +74,7 @@ const Member = () => {
                                     <th></th>
                                     <th>Name</th>
                                     <th>Total Task</th>
-                                    <th>Action</th>
+                                    <th className='text-center'>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -101,8 +85,21 @@ const Member = () => {
                                     <th>{index + 1}</th>
                                     <td>{member.name}</td>
                                     <td>{member.email}</td>
-                                    <td><label onClick={() => deleteMember(member._id)} class="btn btn-error modal-button m-1" >Delete</label>
-                                        <label for="my-modal-3" class="btn btn-success modal-button">Update </label>
+                                    <td className='text-center'><label onClick={() => deleteMember(member._id)} class="btn btn-error modal-button m-1" >Delete</label>
+
+                                        <label
+                                            for="my-modal-3"
+                                            onClick={() => update(member._id)}
+                                            class="btn btn-success modal-button m-1"
+                                        >
+                                            Update
+                                        </label>
+                                        <label
+                                            onClick={() => navigateToMemberDetails(member._id)}
+                                            class="btn btn-info modal-button m-1"
+                                        >
+                                            Details
+                                        </label>
                                     </td>
                                 </tr>
                                 )}
@@ -121,39 +118,13 @@ const Member = () => {
 
             </div>
             <Footer></Footer>
-            <input type="checkbox" id="my-modal-3" class="modal-toggle" />
-            <div className="modal">
-                <div className="modal-box md:w-4/12 mt-10 w-10/12 mx-auto relative">
-                    <label for="my-modal-3" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                    <h3 className="text-xl font-koulen text-center text-accent font-bold mb-4">
-                        Update Member
-                    </h3>
-                    <form onSubmit={handleSubmit}>
-                        <div className="flex flex-col font-koulen space-y-2">
-                            <input
-                                type="text"
-                                name="name"
-                                placeholder="name"
-                                className="input input-bordered w-full"
-                            />
-
-
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="email"
-                                className="input input-bordered w-full"
-                            />
-
-                            <input
-                                type="submit"
-                                className="btn btn-accent "
-                                value="Update"
-                            />
-                        </div>
-                    </form>
-                </div>
-            </div>
+            {modalShow && (
+                <UpdateMemberModal
+                    update={updatingMember}
+                    setModalShow={setModalShow}
+                    refetch={refetch}
+                />
+            )}
 
         </div>
     );

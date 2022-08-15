@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react';
-// import { useEffect } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
-import auth from '../firebase.init';
 import { toast } from 'react-toastify'
 import useMember from '../Hooks/useMember';
 import Loading from '../Components/Loading';
 
 const TaskForm = () => {
-
-    const [user] = useAuthState(auth)
     const current = new Date();
     const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
     const navigate = useNavigate();
@@ -39,7 +34,7 @@ const TaskForm = () => {
             date,
             description: event.target.description.value,
         }
-        fetch(`https://limitless-reaches-16352.herokuapp.com/createTask/${user.email}`, {
+        fetch(`https://limitless-reaches-16352.herokuapp.com/createTask`, {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -52,6 +47,7 @@ const TaskForm = () => {
                 event.target.reset();
                 if (result) {
                     navigate('/task')
+                    refetch()
                 }
 
                 if (result) {
@@ -74,9 +70,10 @@ const TaskForm = () => {
                             <div className="form-control w-full max-w-xs">
                                 <label className="label">
                                     <span className="label-text">Title <span className='text-red-500'>*</span></span>
-                                    {/* <span className="label-text-alt">{date}  </span> */}
+
                                 </label>
-                                <input type="text" name='title' placeholder="Wright Title here" className="input input-bordered w-full max-w-xs" required />
+                                <input type="text" name='title' placeholder="Wright Title here"
+                                    className="input input-bordered w-full max-w-xs" required />
                             </div>
 
                             <div className="form-control">

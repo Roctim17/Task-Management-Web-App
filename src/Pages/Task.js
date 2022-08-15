@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import useTask from '../Hooks/useTask';
 import { toast } from 'react-toastify'
-import UpdatedTaskModal from './UpdatedTaskModal';
 import Loading from '../Components/Loading';
+import UpdatedTaskModal from './UpdatedTaskModal';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Task = () => {
-
     const [tasks, isLoading, refetch] = useTask({});
-    const [modalShow, setModalShow] = useState(null);
-    const [updatedTask, setUpdatedTask] = useState({});
     const [allTask, setAllTask] = useState([]);
+    const [updatingTask, setUpdatingTask] = useState({});
+    const [modalShow, setModalShow] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (tasks) {
@@ -28,6 +28,7 @@ const Task = () => {
 
 
     const deleteTask = (_id) => {
+        console.log(_id)
         fetch(`https://limitless-reaches-16352.herokuapp.com/createTask/${_id}`, {
             method: "DELETE",
             headers: {
@@ -43,13 +44,19 @@ const Task = () => {
             });
     };
 
-    const updateTask = (_id) => {
+    const update = (_id) => {
+        console.log(_id)
         setModalShow(true);
-        fetch(`https://limitless-reaches-16352.herokuapp.com/updatedTask/${_id}`)
+        fetch(`https://limitless-reaches-16352.herokuapp.com/createTask/${_id}`)
             .then((res) => res.json())
-            .then((data) => setUpdatedTask(data));
-
+            .then(data => setUpdatingTask(data),
+        );
     };
+
+    const navigateToTaskDetails = id => {
+        console.log(id)
+        navigate(`/taskDetails/${id}`)
+    }
 
 
     return (
@@ -70,7 +77,7 @@ const Task = () => {
                                     <th>Title</th>
                                     <th>Date</th>
                                     <th>Assign to</th>
-                                    <th>Action</th>
+                                    <th className='text-center'>Action</th>
 
                                 </tr>
                             </thead>
@@ -82,13 +89,19 @@ const Task = () => {
                                     <td>{task.title}</td>
                                     <td>{task.date}</td>
                                     <td>{task.member}</td>
-                                    <td><label onClick={() => deleteTask(task._id)} class="btn btn-warning modal-button m-1">Delete</label>
+                                    <td className='text-center'><label onClick={() => deleteTask(task._id)} class="btn btn-warning modal-button m-1">Delete</label>
                                         <label
                                             for="my-modal-6"
-                                            onClick={() => updateTask(task._id)}
-                                            class="btn btn-success modal-button "
+                                            onClick={() => update(task._id)}
+                                            class="btn btn-success modal-button m-1"
                                         >
                                             Update
+                                        </label>
+                                        <label
+                                            onClick={() => navigateToTaskDetails(task._id)}
+                                            class="btn btn-info modal-button m-1"
+                                        >
+                                            Details
                                         </label>
                                     </td>
                                 </tr>
@@ -99,15 +112,18 @@ const Task = () => {
                         </table>
                     </div>
                 </div>
-                {modalShow && (
-                    <UpdatedTaskModal
-                        update={updatedTask}
-                        setModalShow={setModalShow}
-                        refetch={refetch}
-                    />
-                )}
+
             </div>
             <Footer></Footer>
+
+            {modalShow && (
+                <UpdatedTaskModal
+                    update={updatingTask}
+                    setModalShow={setModalShow}
+                    refetch={refetch}
+                />
+            )}
+
         </div>
     );
 };

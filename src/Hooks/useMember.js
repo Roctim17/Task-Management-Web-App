@@ -7,21 +7,7 @@ const useMember = () => {
             method: "GET",
         }).then((res) => res.json())
     );
-    console.log(data)
     return [data, isLoading, refetch];
-
-
-
-
-    // const [allMember, setAllMember] = useState([]);
-
-    // useEffect(() => {
-    //     fetch(`https://limitless-reaches-16352.herokuapp.com/member/`)
-    //         .then(res => res.json())
-    //         .then(data => setAllMember(data))
-    // }, []);
-
-    // return [allMember];
 };
 
 export default useMember;
